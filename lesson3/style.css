@@ -1,14 +1,56 @@
 body{
-	background: lightcyan;
-	width: 800px;
+	background: #f9e933;
+}
+
+header, main, footer {
+	min-width: 855px;
+}
+
+header .container, main .container, footer .container{
+	max-width: 855px;
 	margin: auto;
 }
-h1{
-	color: maroon;
-	text-align: center;
+
+header{
+	background: white;
+	overflow: auto;
 }
-p{
-	color: gray;
-	border: 1px solid gray;
-	padding: 10px;
+
+header h1{
+	float: left;
+	width: 570px;
+}
+
+header nav{
+	float:right;
+	width: 285px;
+}
+
+main{
+	background: white;
+	overflow: auto;
+}
+
+main .r_content{
+	float: left;
+	width: 570px;
+}
+
+main .l_content{
+	float: right;
+	width: 285px;
+}
+
+footer{
+	overflow: auto;
+}
+
+footer .contact{
+	float: left;
+	width: 570px;
+}
+
+footer .sitemap{
+	float: right;
+	width: 285px;
 }
