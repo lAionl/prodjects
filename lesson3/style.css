@@ -1,6 +1,43 @@
 body{
 	background: #f9e933;
 	font-family: 'Droid Sans', sans-serif;
+	font-size: 100%;
+}
+
+h1{
+	font-style: italic;
+	font-size: xx-large;
+}
+
+h2{
+	padding: 10px 0px 0px 0px;
+	font-size: x-large;
+}
+
+h3{
+	padding: 10px 0px 0px 0px;
+	font-size: large;
+}
+
+p{
+	padding: 10px 0px 0px 0px;
+}
+
+ul{
+	padding: 10px 0px 0px 0px;
+}
+
+a{
+	color: red;
+	text-decoration: none;
+}
+
+a:visited{
+	color: pink;
+}
+
+a:hover{
+	text-decoration: underline;
 }
 
 h1, h2, h3, h4{
@@ -17,6 +54,8 @@ header .container, main .container, footer .container{
 }
 
 header{
+	padding: 20px 0px 20px 0px;
+	border: 1px solid red;
 	background: white;
 	overflow: auto;
 }
@@ -32,6 +71,7 @@ header nav{
 }
 
 main{
+	padding: 20px 0 20px 0;
 	background: white;
 	overflow: auto;
 }
