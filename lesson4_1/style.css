@@ -2,3 +2,13 @@
 	margin: 0;
 	padding: 0;
 }
+
+.comments p:nth-child(even){
+	border-radius: 5px;
+	background: lavender;
+}
+
+.comments p:nth-child(odd){
+	border-radius: 5px;
+	backgroud: gainsboro;
+}
