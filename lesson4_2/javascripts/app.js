@@ -9,6 +9,13 @@ var main = function(){
 		"Обновить несколько новых задач",
 		"Купить продукты"
 	];
+	var $button = document.createElement("button");
+        $button.type = "button";
+        $button.id = "btnAC";
+        $button.textContent = "Add Content";            
+	var $input = document.createElement("input");
+        $input.type = "text";
+	
 	var showTabContent = function(massOfContent){
 		$content = $("<ul>");
 		massOfContent.forEach(function (todo){
@@ -39,18 +46,17 @@ var main = function(){
 			else if($element.parent().is(":nth-child(2)")){
 				showTabContent(toDos);
 			}
-			else if($element.parent().is(":nth-child(3)")){
-				var button = document.createElement("button");
-		                button.type = "button";
-               			button.id = "btnAC";
-                		button.textContent = "Add Content";
-				button.onclick = "addTask(toDos);";				
-
-				var input = document.createElement("input");
-				input.type = "text";
-				
-				$("main .content").append(button);
-				$("main .content").append(input);
+			else if($element.parent().is(":nth-child(3)")){	
+				$("main .content").append($button);
+				$("main .content").append($input);
+				var buttonAC = document.getElementById("btnAC");
+        			buttonAC.addEventListener("click", function (){
+                			console.log("it's Work!!!");
+                			if($("main .content input").val() !== ""){
+		                        	toDos.push($(".content input").val());
+                		        	$("main .content input").val("");
+               				}
+        			},false);
 			}
 			return false;
 		});
