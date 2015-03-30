@@ -3,7 +3,7 @@
 
 # Модуль для работы с музыкой из vk.ru
 
-import socket, os
+import socket, os, lxml.html, re, urllib
 
 # Функция для задания вопросов
 def getquestion(question):
