@@ -10,7 +10,7 @@ def getquestion(question):
 	answer = input(question + ' (Y/N)')
 	if(answer.upper == 'Y'):
 		return True
-	elif(answer == 'N'):
+	elif(answer.upper == 'N'):
 		return False
 	else:
 		print('Некорректный ввод попробуйте еще раз.')
