@@ -3,8 +3,9 @@
 
 """Модуль для работы с музыкой из vk.ru"""
 
-# Для модуля lxml установите пакет python-lxml
-import socket, os, lxml, html, re, urllib
+# Для модуля lxml установите пакет python-lxml, а так же
+# выполните pip install cssselect
+import socket, os, lxml.html, re, urllib.request
 
 # Функция для задания вопросов
 def getquestion(question):
@@ -26,18 +27,18 @@ def checkInet():
 	return True
 
 # Функция подключения к vk и получения списка музыки
-def vkConnect(access_token, expires_in, user_id):
+def vkConnect(access_token, user_id):
 	url = "https://api.vkontakte.ru/method/audio.get.xml?uid=" + user_id + "&access_token=" + access_token
-	page = urllib2.urlopen(url)
+	page = urllib.request.urlopen(url)
 	html = page.read()
-	doc = lxml.html.document_from(html)
+	doc = lxml.html.document_fromstring(html)
 	return doc
 
 # Функция наполнения массива данными для getTrackInfo
 def getTrackInfo(target_info, input_doc):
 	outputMas = []
 	for values in input_doc.cssselect(target_info):
-		outputMas.append(target_info.text)
+		outputMas.append(values.text)
 	return outputMas
 
 # Функция получения директории под музыку
@@ -51,10 +52,12 @@ def getDirPath():
 
 # Функция получения исполнителей, названий, ссылок
 def getMusic(doc):
-	artistMas, titleMas, urlMas = []
-	artistMas = getTrackInfo(artist, doc)
-	titleMas = getTrackInfo(title, doc)
-	urlMas = getTrackInfo(url, doc)
+	artistMas = []
+	titleMas = []
+	urlMas = []
+	artistMas = getTrackInfo('artist', doc)
+	titleMas = getTrackInfo('title', doc)
+	urlMas = getTrackInfo('url', doc)
 	path = getDirPath()
 	for i in range(len(artistMas)):
 		filename_new = path+"/"+artistMas[i]+" - "+titleMas[i]+".mp3"
