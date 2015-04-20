@@ -48,14 +48,18 @@ def get_dirpath():
 
 # Функция получения исполнителей, названий, ссылок
 def get_music(doc):
-	artist_arr = get_trackinfo('artist', doc)
-	title_arr = get_trackinfo('title', doc)
-	url_arr = get_trackinfo('url', doc)
 	path = get_dirpath()
-	for i in range(len(artist_arr)):
-		filename_new = path + "/" + artist_arr[i].replace(' ','\ ') + "-" + title_arr[i].replace(' ','\ ') + ".mp3"
-		if os.path.exists(filename_new):
-			print(filename_new + 'уже загружен')
+	tracks = list(zip(get_trackinfo('url', doc),
+			get_trackinfo('title', doc),
+			get_trackinfo('artist', doc)))
+	for url, title, artist in tracks[:]:
+		file_name = '{path}/{artist}-{title}.mp3'.format(
+			path = path,
+			artist = artist.replace(' ','\ '),
+			title = title.replace(' ','\ ')
+		)
+		if os.path.exists(file_name):
+			print('{file_name} уже загружен'.format(file_name = file_name))
 		else:
-			down_cmd = "wget " + url_arr[i] + " -O " + filename_new
+			down_cmd = 'wget {url} -O {file_name}'.format(url = url, file_name = file_name)
 			os.popen(down_cmd)
