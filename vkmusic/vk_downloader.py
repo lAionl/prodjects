@@ -11,10 +11,10 @@ user_id = '151629380'
 
 
 def main():
-	netstate = checkInet()
+	netstate = check_inet()
 	if not netstate:
 		print('Проверьте соединение с интернетом и запутстие скрипт снова.')
 		sys.exit
-	my_doc = vkConnect(token,user_id)	
-	getMusic(my_doc)
+	my_doc = vk_connect(token,user_id)	
+	get_music(my_doc)
 main()
