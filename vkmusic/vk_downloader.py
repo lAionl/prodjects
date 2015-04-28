@@ -6,7 +6,7 @@
 # http://api.vkontakte.ru/oauth/authorize?client_id=2223684&scope=audio&redirect_uri=http://api.vk.com/blank.html&display=page&response_type=token
 
 from vkmusic import *
-token = '13c85c54a174c6a994bf63523518fce77fdb34e9e117543f8878e714ba2918d88e8ba7d7a35794669efc1'
+token = '61a4045f0ddd770e3675639bd8cd2c6a4f8f96825cf4e0161abe6d99fd78389d63da2f191514e8c1722a8'
 user_id = '151629380'
 
 
