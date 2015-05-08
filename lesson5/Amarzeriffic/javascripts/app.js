@@ -41,7 +41,20 @@ var main = function(to_do_objects){
 			else if($element.parent().is(":nth-child(2)")){
 				showTabContent(toDos);
 			}
-			else if($element.parent().is(":nth-child(3)")){	
+			else if($element.parent().is(":nth-child(3)")){
+				console.log("Щелчок на вкладке Теги");
+				organized.forEach(function (tag){
+					var $tagName = $("<h3>").text(tag.name),
+						$content = $("<ul>");
+					tag.toDos.forEach(function (description){
+						var $li = $("<li>").text(description);
+						$content.append($li);
+					});
+					$("main .content").append($tagName);
+					$("main .content").append($content);
+				});
+			}
+			else if($element.parent().is(":nth-child(4)")){	
 				$("main .content").append($button);
 				$("main .content").append($input);
 				var buttonAC = document.getElementById("btnAC");
