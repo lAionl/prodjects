@@ -1,22 +1,24 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-"""Модуль для работы с музыкой из vk.ru"""
+"""Модуль для работы с музыкой из vk.ru
 
-# Для модуля lxml установите пакет python-lxml, а так же
-# выполните pip install cssselect
+ Для модуля lxml установите пакет python-lxml, а так же
+ выполните pip install cssselect
+
+"""
 import socket, os, lxml.html, re, urllib.request
 
-# Функция проверки соединения с сетью
 def check_inet():
+"""Функция проверки соединения с сетью."""
 	try:
 		socket.gethostbyaddr('www.yandex.ru')
 	except socket.gaierror:
 		return False
 	return True
 
-# Функция подключения к vk и получения списка музыки
 def vk_connect(access_token, user_id):
+"""Функция подключения к vk и получения списка музыки."""
 	url = "https://api.vkontakte.ru/method/audio.get.xml?uid=" + user_id + "&access_token=" + access_token
 	try:
 		page = urllib.request.urlopen(url)
@@ -27,16 +29,16 @@ def vk_connect(access_token, user_id):
 	doc = lxml.html.document_fromstring(html)
 	return doc
 
-# Функция наполнения массива данными для getTrackInfo
 def get_trackinfo(target_info, input_doc):
+"""Функция наполнения массива данными для getTrackInfo."""
 	outputMas = []
 	for values in input_doc.cssselect(target_info):
 		outputMas.append(values.text)
 	return outputMas
 
-# Функция получения директории под музыку
 def get_dirpath():
-	path = '~/Downloads/vkmusic'
+"""Функция получения директории под музыку."""
+	path = '/mnt/media/music/vkmusic'
 	if not os.path.exists(path):
 		try:
 			os.makedirs(path)
@@ -46,8 +48,8 @@ def get_dirpath():
 			os.exit()
 	return path
 
-# Функция получения исполнителей, названий, ссылок
 def get_music(doc):
+"""Функция получения исполнителей, названий, ссылок."""
 	path = get_dirpath()
 	tracks = list(zip(get_trackinfo('url', doc),
 			get_trackinfo('title', doc),
@@ -61,5 +63,5 @@ def get_music(doc):
 		if os.path.exists(file_name):
 			print('{file_name} уже загружен'.format(file_name = file_name))
 		else:
-			down_cmd = 'wget {url} -O {file_name}'.format(url = url, file_name = file_name)
+			down_cmd = 'wget "{url}" -O {file_name}'.format(url = url, file_name = file_name)
 			os.popen(down_cmd)
