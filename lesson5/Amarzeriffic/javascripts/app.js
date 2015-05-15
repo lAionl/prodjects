@@ -24,6 +24,29 @@ var main = function(to_do_objects){
                         $("main .content input").val("");
                 }
 	}
+	var organizeByTag = function (to_do_objects){
+		//создание пустого массива тегов
+		var tags = [];
+		to_do_objects.forEach(function (toDo){
+			toDo.tags.forEach(function (tag){
+				if (tags.indexOf(tag) === -1){
+					tags.push(tag);
+				}
+			});
+		});
+		console.log(tags);
+		var tag_objects = tags.map(function (tag){
+			var to_dos_with_tag = [];
+			to_do_objects.forEach(function (toDo){
+				if(toDo.tags.indexOf(tag) !== -1){
+					to_dos_with_tag.push(toDo.description);
+				}
+			});
+			return{"name": tag, "toDos": to_dos_with_tag}
+		});
+		return tag_objects;
+		console.log(tag_objects);
+	};
 	$(".tabs a span").toArray().forEach(function (element){
 		//создаем обработчик щелчков для этого элемента
 		$(element).on("click", function(){
@@ -43,9 +66,10 @@ var main = function(to_do_objects){
 			}
 			else if($element.parent().is(":nth-child(3)")){
 				console.log("Щелчок на вкладке Теги");
-				organized.forEach(function (tag){
-					var $tagName = $("<h3>").text(tag.name),
-						$content = $("<ul>");
+				var organizedByTag = organizeByTag(to_do_objects);
+				organizedByTag.forEach(function (tag){
+					var $tagName = $("<h3>").text(tag.name)
+					var $content = $("<ul>");
 					tag.toDos.forEach(function (description){
 						var $li = $("<li>").text(description);
 						$content.append($li);
