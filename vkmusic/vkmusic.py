@@ -1,16 +1,16 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
-"""Модуль для работы с музыкой из vk.ru
+"""
+Модуль для работы с музыкой из vk.ru
 
- Для модуля lxml установите пакет python-lxml, а так же
- выполните pip install cssselect
-
+Для модуля lxml установите пакет python-lxml, а так же
+выполните pip install cssselect
 """
 import socket, os, lxml.html, re, urllib.request
 
 def check_inet():
-"""Функция проверки соединения с сетью."""
+	"""Функция проверки соединения с сетью."""
 	try:
 		socket.gethostbyaddr('www.yandex.ru')
 	except socket.gaierror:
@@ -18,7 +18,7 @@ def check_inet():
 	return True
 
 def vk_connect(access_token, user_id):
-"""Функция подключения к vk и получения списка музыки."""
+	"""Функция подключения к vk и получения списка музыки."""
 	url = "https://api.vkontakte.ru/method/audio.get.xml?uid=" + user_id + "&access_token=" + access_token
 	try:
 		page = urllib.request.urlopen(url)
@@ -30,15 +30,15 @@ def vk_connect(access_token, user_id):
 	return doc
 
 def get_trackinfo(target_info, input_doc):
-"""Функция наполнения массива данными для getTrackInfo."""
+	"""Функция наполнения массива данными для getTrackInfo."""
 	outputMas = []
 	for values in input_doc.cssselect(target_info):
 		outputMas.append(values.text)
 	return outputMas
 
 def get_dirpath():
-"""Функция получения директории под музыку."""
-	path = '/mnt/media/music/vkmusic'
+	"""Функция получения директории под музыку."""
+	path = '/home/dmitry/Downloads/vkmusic'
 	if not os.path.exists(path):
 		try:
 			os.makedirs(path)
@@ -49,7 +49,7 @@ def get_dirpath():
 	return path
 
 def get_music(doc):
-"""Функция получения исполнителей, названий, ссылок."""
+	"""Функция получения исполнителей, названий, ссылок."""
 	path = get_dirpath()
 	tracks = list(zip(get_trackinfo('url', doc),
 			get_trackinfo('title', doc),
@@ -57,8 +57,8 @@ def get_music(doc):
 	for url, title, artist in tracks[:]:
 		file_name = '{path}/{artist}-{title}.mp3'.format(
 			path = path,
-			artist = artist.replace(' ','\ '),
-			title = title.replace(' ','\ ')
+			artist = artist.replace(' ', '\ '),
+			title = title.replace(' ', '\ ')
 		)
 		if os.path.exists(file_name):
 			print('{file_name} уже загружен'.format(file_name = file_name))
