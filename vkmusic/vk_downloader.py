@@ -6,18 +6,20 @@
  http://api.vkontakte.ru/oauth/authorize?client_id=2223684&scope=audio&redirect_uri=http://api.vk.com/blank.html&display=page&response_type=token
 """
 
-from vkmusic import *
-token = 'b1760b3be39894c16cf2b7181b2397b9a416db0e388f8fa1c80594d9261c2bad137ba6d7a9ecbd08a4434'
+from vkmusic import check_inet, vk_connect, get_music
+from sys import exit
+token = '86ce9541d704630bf5a49572a6116cef89728aae6ee84050565afa0b7d9218f254360a3dad23e76a3d677'
 user_id = '151629380'
 
 
 def main():
-	netstate = check_inet()
-	if not netstate:
-		print('Проверьте соединение с интернетом и запутстие скрипт снова.')
-		sys.exit
-	my_doc = vk_connect(token,user_id)	
-	get_music(my_doc)
+    """Передаем данные для доступа к api и получаем список музыки"""
+    netstate = check_inet()
+    if not netstate:
+        print('Проверьте соединение с интернетом и запутстие скрипт снова.')
+        exit()
+    my_doc = vk_connect(token, user_id)
+    get_music(my_doc)
 
 if __name__ == "__main__":
-    sys.exit(main())
+    exit(main())
