@@ -8,10 +8,13 @@
 """
 
 import urllib
-import urllib.parse
 import http.cookiejar
+import urllib.request
 from urllib.parse import urlparse
+from urllib.parse import urlencode
 from html.parser import HTMLParser
+from _pytest.pastebin import url
+
 
 class FromParser(HTMLParser):
     def __init__(self):
@@ -37,7 +40,7 @@ class FromParser(HTMLParser):
             if "method" in attrs:
                 self.method = attrs["method"]
         elif tag == "input" and "type" in attrs and "name" in attrs:
-            if attrs["type"] in ["hidden","text","password"]:
+            if attrs["type"] in ["hidden", "text", "password"]:
                 self.params[attrs["name"]] = attrs["value"] if "value" in attrs else ""
 
     def handle_endtag(self, tag):
@@ -63,16 +66,16 @@ response = opener.open(
 
 doc = response.read()
 parser = FromParser()
-parser.feed(doc)
+parser.feed(doc.decode("utf-8"))
 parser.close()
 if not parser.form_parsed or parser.url is None or "pass" not in parser.params or "email" not in parser.params:
     raise RuntimeError("something wrong")
 parser.params["email"] = email
 parser.params["pass"] = password
-if parser.method == "POST":
-    response = opener.open(parser.url, urllib.parse.urlencode(parser.params))
+post = urllib.parse.urlencode(parser.params)
+if parser.method == "post":
+    response = opener.open(parser.url, post)
 else:
     raise NotImplementedError("method '$s'" % parser.method)
 doc = response.read()
-
 print(doc)
