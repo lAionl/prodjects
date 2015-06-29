@@ -7,7 +7,7 @@
 Для модуля lxml установите пакет python-lxml, а так же
 выполните pip install cssselect
 """
-import socket, os, lxml.html, urllib.request.urlopen, urllib.error
+import socket, os, lxml.html, urllib.request, urllib.error
 
 
 def check_inet():
@@ -68,5 +68,8 @@ def get_music(doc):
         if os.path.exists(file_name):
             print('{file_name} уже загружен'.format(file_name=file_name))
         else:
-            urllib.request.urlretrieve(url,file_name)
-            print('{file_name} was writing'.format(file_name = file_name))
+            try:
+                urllib.request.urlretrieve(url,file_name)
+                print('{file_name} was writing'.format(file_name = file_name))
+            except:
+                print('OMFG! {file_name} is missing!!!'.format(file_name=file_name))
