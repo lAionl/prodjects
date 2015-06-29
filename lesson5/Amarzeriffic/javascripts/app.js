@@ -7,7 +7,7 @@ var main = function(to_do_objects){
 	var $button = document.createElement("button");
         $button.type = "button";
         $button.id = "btnAC";
-        $button.textContent = "Add Content";            
+        $button.textContent = "+";
 	var $input = document.createElement("input");
         $input.type = "text";
 	
@@ -18,12 +18,6 @@ var main = function(to_do_objects){
 		});
 		$("main .content").append($content);
 	};
-	var addTask = function(massOfContent){
-		if($("main .content input").val() !== ""){
-                        massOfContent.push($(".content input").val());
-                        $("main .content input").val("");
-                }
-	}
 	var organizeByTag = function (to_do_objects){
 		//создание пустого массива тегов
 		var tags = [];
@@ -79,14 +73,27 @@ var main = function(to_do_objects){
 				});
 			}
 			else if($element.parent().is(":nth-child(4)")){	
-				$("main .content").append($button);
+				var $input = $("<input>").addClass("description"),
+					$inputLabel = $("<p>").text("Description: "),
+					$tagInput = $("<input>").addClass("tags"),
+					$tagLabel = $("<p>").text("Tags: ");
+				$("main .content").append($inputLabel);
 				$("main .content").append($input);
+				$("main .content").append($tagLabel);
+				$("main .content").append($tagInput);
+				$("main .content").append($button);
 				var buttonAC = document.getElementById("btnAC");
         			buttonAC.addEventListener("click", function (){
-                			console.log("it's Work!!!");
+						console.log("Click on button4");
+						var description = $input.val(),
+							tags = $tagInput.val().split(",");
                 			if($("main .content input").val() !== ""){
-		                        	toDos.push($(".content input").val());
-                		        	$("main .content input").val("");
+								to_do_objects.push({"description":description, "tags":tags});
+								toDos = to_do_objects.map(function (toDo){
+									return toDo.description;
+								});
+		                        	/*toDos.push($(".content input").val());*/
+								$("main .content input").val("");
                				}
         			},false);
 			}
