@@ -42,7 +42,7 @@ def get_trackinfo(target_info, input_doc):
 
 
 def get_dir_to_download_path(path):
-    """Функция получения директории под музыку."""
+    """Функция получения директории для загрузки музыки."""
     if not os.path.exists(path):
         try:
             os.makedirs(path)
@@ -53,6 +53,14 @@ def get_dir_to_download_path(path):
     return path
 
 def get_credentials(credential_file_name = 'credentials.json'):
+    """
+    Функция для получения access_token и user_id из файла переданного как аргумент
+    формат содержимого файла:
+    {
+        "token":"<ваш_token>"
+        "user_id":"<ваш_user_id>"
+    }
+    """
     with open(credential_file_name) as credential_file:
         credentials_dict = load(credential_file)
     token = credentials_dict.get('token')

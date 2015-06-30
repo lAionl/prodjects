@@ -14,12 +14,11 @@ from sys import exit
 def main():
     """Передаем данные для доступа к api и получаем список музыки"""
 
-    token, user_id = get_credentials()
-
     netstate = check_inet()
     if not netstate:
         print('Проверьте соединение с интернетом и запутстие скрипт снова.')
         exit()
+    token, user_id = get_credentials()
     my_doc = vk_connect(token, user_id)
     get_music(doc = my_doc, dir_to_download_path = '/home/dmitry/Downloads/vkmusic/')
 
