@@ -4,10 +4,11 @@
 """
 Модуль для работы с музыкой из vk.ru
 
-Для модуля lxml установите пакет python-lxml, а так же
-выполните pip install cssselect
+Для модуля lxml установите пакет python3-lxml, а так же
+выполните pip3 install cssselect
 """
 import socket, os, lxml.html, urllib.request, urllib.error
+from json import load
 
 
 def check_inet():
@@ -40,9 +41,8 @@ def get_trackinfo(target_info, input_doc):
     return outputMas
 
 
-def get_dirpath():
+def get_dir_to_download_path(path):
     """Функция получения директории под музыку."""
-    path = '/home/dmitry/Downloads/vkmusic'
     if not os.path.exists(path):
         try:
             os.makedirs(path)
@@ -52,16 +52,22 @@ def get_dirpath():
             os.exit()
     return path
 
+def get_credentials(credential_file_name = 'credentials.json'):
+    with open(credential_file_name) as credential_file:
+        credentials_dict = load(credential_file)
+    token = credentials_dict.get('token')
+    user_id = credentials_dict.get('user_id')
+    return token, user_id
 
-def get_music(doc):
+def get_music(doc, dir_to_download_path = '/tmp/vkmusic'):
     """Функция получения исполнителей, названий, ссылок."""
-    path = get_dirpath()
+    dir_to_download_path = get_dir_to_download_path(dir_to_download_path)
     tracks = list(zip(get_trackinfo('url', doc),
                       get_trackinfo('title', doc),
                       get_trackinfo('artist', doc)))
     for url, title, artist in tracks[:]:
         file_name = '{path}/{artist}-{title}.mp3'.format(
-            path=path,
+            path=dir_to_download_path,
             artist=artist,
             title=title
         )
@@ -69,7 +75,6 @@ def get_music(doc):
             print('{file_name} уже загружен'.format(file_name=file_name))
         else:
             try:
-                urllib.request.urlretrieve(url,file_name)
-                print('{file_name} was writing'.format(file_name = file_name))
+                urllib.request.urlretrieve(url, file_name)
             except:
                 print('OMFG! {file_name} is missing!!!'.format(file_name=file_name))
