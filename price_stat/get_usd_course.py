@@ -1,4 +1,4 @@
-__author__ = 'dmitry'
+__author__ = 'lAionl'
 # !/usr/bin/env python
 # -*- coding: cp1251-*-
 
@@ -6,13 +6,14 @@ __author__ = 'dmitry'
     Get USD/RUB course value from http://www.cbr.ru
 """
 
-import urllib.request, urllib.error
+import urllib.request
+import urllib.error
 from xml.dom import minidom
 from sys import exit
 
 
 def get_xml_data_from_url(url="http://www.cbr.ru/scripts/XML_daily.asp",file_name='/tmp/course_usd_rub.xml'):
-    """ Read URL. """
+    """ Read XML data from URL and write it in XML. """
     try:
         page = urllib.request.urlopen(url)
     except urllib.error.URLError as error_text:
@@ -26,6 +27,10 @@ def get_xml_data_from_url(url="http://www.cbr.ru/scripts/XML_daily.asp",file_nam
     return file_name
 
 def get_USDRUB_course_value(input_xml_name=get_xml_data_from_url()):
+    """
+        Get data from XML and return dict like:
+        {'course': '63,8644', 'date': '07.08.2015'}
+    """
     output_dict = {}
     doc = minidom.parse(input_xml_name)
     valute_names = doc.getElementsByTagName('Valute')
@@ -37,13 +42,14 @@ def get_USDRUB_course_value(input_xml_name=get_xml_data_from_url()):
             course_value = valute_name.getElementsByTagName('Value')[0]
             output_dict['date'] =  check_course_date
             output_dict['course'] = course_value.firstChild.data
+        else:
+            print('Курса для валюты: {valute_name} не найден'.format(
+                valute_name=valute_name))
     return output_dict
 
 def main():
     """ Write message. """
-#    print("please use the function, but do not run as an executable file")
-    xml_data = get_USDRUB_course_value()
-    print(xml_data)
+    print("please use the function, but do not run as an executable file")
 
 if __name__ == "__main__":
     exit(main())
