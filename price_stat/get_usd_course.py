@@ -40,16 +40,16 @@ def get_USDRUB_course_value(input_xml_name=get_xml_data_from_url()):
         name = valute_name.getElementsByTagName('Name')[0]
         if name.firstChild.data == 'Доллар США':
             course_value = valute_name.getElementsByTagName('Value')[0]
-            output_dict['date'] =  check_course_date
-            output_dict['course'] = course_value.firstChild.data
+            output_dict = [(check_course_date,course_value.firstChild.data)]
         else:
-            print('Курса для валюты: {valute_name} не найден'.format(
-                valute_name=valute_name))
+            pass
     return output_dict
 
 def main():
     """ Write message. """
     print("please use the function, but do not run as an executable file")
+    course_dict = get_USDRUB_course_value()
+    print(course_dict)
 
 if __name__ == "__main__":
     exit(main())

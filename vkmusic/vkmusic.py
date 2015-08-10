@@ -35,10 +35,10 @@ def vk_connect(access_token, user_id):
 
 def get_trackinfo(target_info, input_doc):
     """Функция наполнения массива данными для getTrackInfo."""
-    outputMas = []
+    output_arr = []
     for values in input_doc.cssselect(target_info):
-        outputMas.append(values.text)
-    return outputMas
+        output_arr.append(values.text)
+    return output_arr
 
 
 def get_dir_to_download_path(path):
