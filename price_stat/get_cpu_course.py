@@ -25,8 +25,12 @@ def get_html_data_from_url(url="http://technopoint.ru/catalog/2123/processory"):
     html = html_page.read()
     return html
 
-def get_products_dict_from_html(html):
-    soup = BeautifulSoup(html, 'lxml')
+def get_products_dict_from_html(input_html):
+    """
+        Get products from html and puts it's in dict like this:
+        {0: ('Процессор AMD Athlon II X2 245 OEM', '1 150'),...}
+    """
+    soup = BeautifulSoup(input_html, 'lxml')
     products_dict = {}
     products_table = soup.find('table', class_='table table-bordered')
     product_count = 0
@@ -42,7 +46,10 @@ def get_products_dict_from_html(html):
 
 def main():
     """ Write message. """
-    print("please use the function, but do not run as an executable file")
+    print("please use the functions, but do not run as an executable file")
+    html = get_html_data_from_url()
+    dict = get_products_dict_from_html(html)
+    print(dict)
 
 if __name__ == "__main__":
     exit(main())
